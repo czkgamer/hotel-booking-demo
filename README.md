@@ -1,118 +1,77 @@
-# Suntara Grand — ตัวอย่างระบบจองโรงแรมสำหรับ GitHub Pages
+# Suntara Grand — Hotel booking UI prototype
 
-## ชุดแก้ไขโลโก้และแคช — 24 กันยายน 2026
+## Demo ตามใบเสนอราคา Rev.02 — รุ่น 20260924-features2
 
-รุ่น `20260924-logo1` กำหนดขนาดโลโก้ใน HTML และเพิ่มรหัสรุ่นใน URL ของ CSS, JavaScript และโมดูลข้อมูล เพื่อให้เบราว์เซอร์โหลดไฟล์ใหม่แทนแคชเดิม
+เพิ่มหน้าตัวอย่าง 4 ฟีเจอร์ในข้อเสนอราคา 59,000 บาท:
 
-หากมี Repository เดิมอยู่แล้ว ให้ใช้ชุดนี้อัปเดตได้เลย ไม่ต้องสร้าง Repository ใหม่:
+- **เปรียบเทียบห้อง:** เลือก 2–4 ประเภท เทียบรูป ขนาด เตียง ผู้เข้าพัก สิ่งอำนวยความสะดวก ราคา และห้องว่างในช่วงเดียวกัน แล้วจองจากตารางได้
+- **ปฏิทินห้องว่าง:** ดูรายเดือนและแยกประเภท เลือกวันเข้า–ออก ระบบตรวจห้องเดียวที่ว่างครบทุกคืน จำนวนเปลี่ยนตามการเปิด–ปิดขายและการจองที่ทดลองใน Front
+- **ปุ่มจองบนเว็บหลัก:** แท็บ “เว็บหลัก (ตัวอย่าง)” จำลองตำแหน่งปุ่มของโรงแรม กดแล้วเข้าสู่หน้าจอง ไม่ใช่การแก้เว็บไซต์หลักจริง
+- **สถิติการจอง:** หลังบ้าน “สถิติการจอง” มีข้อมูลสมมติ 7 วัน และเหตุการณ์จาก “การทดลองครั้งนี้” แยกกัน ต้องยอมรับสถิติก่อนจึงนับเหตุการณ์ ไม่มีการส่งข้อมูลไป Google
 
-1. แตก ZIP ชุดใหม่ลงโฟลเดอร์ใหม่ เพื่อไม่ปะปนกับชุดเดิม
-2. เปิด Repository เดิม เลือก **Add file → Upload files**
-3. ลากไฟล์ด้านในและโฟลเดอร์ `assets` ไปวางที่ระดับแรก ให้แทนที่ไฟล์ชื่อเดิม โดยเฉพาะ `index.html`, `style.css`, `app.js`, `model.js`
-4. กด **Commit changes** แล้วรอการเผยแพร่ GitHub Pages รอบล่าสุดเสร็จ
-5. เปิดเว็บไซต์เดิมแล้วกด **Ctrl + Shift + R** หรือเปิดหน้าต่างไม่ระบุตัวตน
+หน้าสถิติเป็นตัวอย่างอธิบายการตั้งค่า GA4 ในข้อเสนอ ระบบจริงดูรายงานผ่าน Google Analytics ไม่ถือว่ารวมการพัฒนารายงานเชื่อม GA4 เพิ่มเติม
 
-ขนาดโลโก้หัวเว็บมีค่าเริ่มต้น 85 × 83 พิกเซล และปรับตามหน้าจอด้วย CSS จึงไม่ขยายเป็นขนาดต้นฉบับเมื่อ CSS ยังไม่พร้อม
-ตรวจโค้ด การเรนเดอร์จำลอง และเส้นทางไฟล์แล้ว; ยังไม่ได้ตรวจภาพในเบราว์เซอร์จริงของผู้ใช้หลังอัปโหลด
+### วิธีสาธิตกับผู้บริหาร
+
+1. หน้าจองลูกค้า: เลือกยอมรับสถิติทดลอง แล้วค้นหาวันพักและประเภทห้อง
+2. เปิดปฏิทิน เลือกวันเข้าและวันออก กด “ใช้ช่วงวันที่นี้”
+3. กด “เปรียบเทียบห้อง” เลือกอย่างน้อย 2 ประเภท ดูยอดรวม และกดจองห้องที่รองรับผู้เข้าพัก
+4. ส่งคำขอด้วยข้อมูลสมมติที่มีให้ ไปดูฝั่ง Front ลงเลขอ้างอิง Easyfo สมมติ แล้วกดยืนยัน
+5. เปิด “สถิติการจอง → การทดลองครั้งนี้” ดูเหตุการณ์การค้นหา ดูห้อง เริ่มกรอก และส่งคำขอ
+6. เปิด “เว็บหลัก (ตัวอย่าง)” กดปุ่มจอง และลองอีกครั้งเพื่อดูที่มาเป็นเว็บไซต์หลัก
+7. ทดลองปฏิเสธสถิติ แล้วค้นหาหรือจองเพิ่ม: การจองยังทำได้ แต่จำนวนเหตุการณ์จะไม่เพิ่ม
+8. กด “เริ่มตัวอย่างใหม่” เพื่อคืนข้อมูลทั้งหมด หรือรีเฟรชหน้าเว็บเพื่อเริ่มใหม่
+
+### อัปเดต GitHub Pages เดิม
+
+1. แตก ZIP ชุดนี้ลงโฟลเดอร์ใหม่
+2. เปิด Repository `hotel-booking-demo` → **Add file → Upload files**
+3. อัปโหลดไฟล์ด้านในทั้งหมดและโฟลเดอร์ `assets` ไว้ระดับเดียวกับ `index.html` โดยแทนที่ไฟล์เดิม อย่าอัปโหลด ZIP ทั้งก้อนหรือเพิ่มโฟลเดอร์ครอบอีกชั้น
+4. ชุดนี้ต้องมี `index.html`, `app.js`, `model.js`, `style.css`, **`features.js` และ `features.css`** พร้อม `assets` และ `README.md`
+5. กด **Commit changes** แล้วรอ GitHub Pages เผยแพร่เสร็จ
+6. เปิดลิงก์เดิมแล้วกด **Ctrl + Shift + R** ถ้ายังเป็นหน้าเดิมให้ลองหน้าต่างไม่ระบุตัวตน
+
+URL ของ CSS/JavaScript ใช้รหัสรุ่นใหม่เพื่อให้โหลดไฟล์ตรงกัน กำหนดขนาดโลโก้ใน HTML ไว้ด้วย จึงไม่ขยายเต็มหน้าถ้า CSS ยังไม่พร้อม
+
+ไฟล์นี้ใช้ผ่านเว็บเซิร์ฟเวอร์ เช่น GitHub Pages การดับเบิลคลิก `index.html` โดยตรงอาจถูกเบราว์เซอร์บล็อก JavaScript modules
+
+### ขอบเขต Demo
+
+ข้อมูลทุกอย่างอยู่ในหน้าที่เปิดเท่านั้น ไม่แชร์ระหว่างเครื่องและหายเมื่อรีเฟรช ข้อมูลห้อง ราคา รูป และรายงานเป็นข้อมูลสมมติ ไม่มีการรับจอง ส่งอีเมล รับชำระ หรือเชื่อม EASYFO/Google จริง การสลับบทบาท Front/ผู้ดูแลเป็นปุ่มสาธิต ไม่ใช่ระบบรักษาความปลอดภัย
+
+ระบบรีวิว แพ็กเกจเสริม การชำระเงินออนไลน์ Rate shopper และการเชื่อม EASYFO อัตโนมัติยังไม่รวมใน Demo รุ่นนี้ ตามรายการตัวเลือกเพิ่มเติมในใบเสนอราคา
+
+### การตรวจสอบ
+
+ผ่านการตรวจไวยากรณ์ JavaScript การทดสอบตรรกะ 15 กรณี และการสร้าง HTML จำลองครบทุกหน้า รวมฟีเจอร์ใหม่ 4 รายการ ตรวจเส้นทางไฟล์สำหรับ GitHub Pages แล้ว ยังไม่ได้ตรวจภาพหน้าจอด้วยเบราว์เซอร์จริงในสภาพแวดล้อมนี้
+
+Thai, responsive, static prototype for Suntara Grand with 168 sample rooms and four room types. It demonstrates a guest booking flow and a Front desk workspace. All sample room counts, room numbers, images, descriptions, prices, and guests are fictional.
+
+## Presentation path
+
+The supplied Suntara Grand logo is included unchanged. Floors 3–6 have a fictional distribution of 44, 44, 42 and 38 rooms. Room types are independent of floor. These values are presentation data, not a verified room list.
 
 
-ตัวอย่าง UI ของ Suntara Grand สำหรับให้ลูกค้าและผู้บริหารทดลองหน้าจอของโรงแรม 168 ห้อง / 4 ประเภท
-ประกอบด้วยหน้าจองลูกค้า และหน้าหลังบ้าน Front ในเว็บไซต์เดียวกัน
+1. Guest: choose dates, inspect a room, and submit a sample request using the prefilled fictional details.
+2. Open that booking in Front: enter a sample Easyfo reference, save it, then confirm the booking.
+3. Front inventory: select dates, floor, type or room-number filter. Select one or many unreserved rooms, review the summary, provide a closure reason or acknowledge the Easyfo check, then apply the change.
+4. Switch the demo role to Admin for rate, discount, description and photo editing. The role switch is a presentation control, not real authentication.
+5. Open Room setup: edit unreserved room metadata, import an Excel-exported UTF-8 CSV after preview, or reorder room cards with drag/drop or arrow buttons and save. Reordering affects display order only.
+6. Move a pending or confirmed booking to another same-type room that is available for the full stay. Existing Easyfo references require manual-update acknowledgement. Price and dates remain unchanged.
+7. View the in-memory audit log. Refreshing resets all sample state.
 
-## วิธีนำขึ้น GitHub ด้วยหน้าเว็บ
+Guest searches and Front inventory use the same in-memory state. The checkout date is exclusive. Pending and confirmed reservations both consume the same room for the full stay. Booked rooms cannot be overwritten by availability changes. Existing bookings retain their price snapshot. Cancellation releases the reservation and restores the underlying sale availability.
 
-1. แตกไฟล์ `Hotel_Booking_GitHub_Pages.zip` ลงเครื่องก่อน อย่าอัปโหลดไฟล์ ZIP ทั้งก้อน
-2. เข้าบัญชี GitHub แล้วสร้าง Repository ชื่อ `hotel-booking-demo`
-3. ถ้าใช้ GitHub Free ให้เลือก Repository แบบ **Public** และเปิด Add README เพื่อให้มี branch `main`
-4. เปิด Repository เลือก **Add file → Upload files**
-5. อัปโหลดไฟล์ที่อยู่ภายในชุดนี้และโฟลเดอร์ `assets` ลงระดับแรกของ Repository โดยให้ `index.html` อยู่ระดับเดียวกับ README
-   อย่าอัปโหลดครอบด้วยโฟลเดอร์ `github-pages` หรือโฟลเดอร์ชื่อ ZIP อีกชั้น
-6. กด **Commit changes** ไปที่ branch `main`
-7. ไปที่ **Settings → Pages**
-8. ตั้ง **Source: Deploy from a branch**
-9. ตั้ง **Branch: main** และ **Folder: / (root)** แล้วกด **Save**
-10. รอการเผยแพร่ จากนั้นกด **Visit site** ในหน้า Pages แล้วคัดลอกลิงก์เว็บไซต์ส่งให้ลูกค้า
+The prototype intentionally resets on refresh. There is no database, staff authentication, real payment, notification delivery, or Easyfo API. Easyfo records must be entered manually; other-channel bookings do not automatically update the website. Production reliability, concurrent transaction safety, authorization, audit trails, personal-data controls, monitoring, backups, and operating policies require the later backend project.
 
-GitHub ระบุว่าอาจใช้เวลาถึงประมาณ 10 นาทีหลัง push ก่อนเห็นการเปลี่ยนแปลง
-ลิงก์เว็บไซต์โดยทั่วไปจะเป็น `https://ชื่อบัญชี.github.io/hotel-booking-demo/`
-ให้ส่งลิงก์จากปุ่ม Visit site แทนลิงก์หน้า Repository ที่แสดงโค้ด
+## Catalog import
 
-## ไฟล์ที่ควรเห็นในระดับแรก
+The included CSV contains `room_number,floor,room_type`. Exactly 168 unique room numbers are required, floors are 3–6, and only the four configured types are accepted. Import preserves existing bookings and matching room sale availability. Active reservations protect their room number, floor and type. New room numbers start closed for sale. Missing or invalid rows reject the whole import.
 
-| ไฟล์หรือโฟลเดอร์ | หน้าที่ |
-| --- | --- |
-| index.html | หน้าแรกของเว็บไซต์ |
-| style.css | หน้าตาและการจัดวาง |
-| app.js | การทำงานของหน้าจอ |
-| model.js | ข้อมูลสมมติและตรรกะการจองตัวอย่าง |
-| assets/ | รูปภาพ ฟอนต์ และใบอนุญาตฟอนต์ |
-| .nojekyll | แจ้งให้เผยแพร่ไฟล์แบบ static |
-| README.md | คู่มือฉบับนี้ |
+## Validation
 
-ชุดนี้ไม่ต้องติดตั้ง Node.js หรือรันคำสั่ง build และใช้ relative paths เพื่อรองรับ URL ที่มีชื่อ Repository ต่อท้าย
-ควรเปิดผ่าน GitHub Pages หรือเว็บเซิร์ฟเวอร์ การดับเบิลคลิก index.html เป็น file:// อาจทำให้ JavaScript modules ไม่ทำงาน
+`npm run check`: JavaScript syntax plus domain tests for inventory reservation, date boundaries, last-room booking, cancellation, confirmation gating, price snapshots and input rejection, atomic bulk changes, room moves, metadata guards, display-only reordering and catalog imports. A minimal DOM substitute exercises all render sections and the main dialogs; it is not a browser visual test.
 
-## เส้นทางทดลองสำหรับนำเสนอ (ประมาณ 5 นาที)
+Static asset references checked locally. No compatible managed browser preview was available for this static project, so responsive layouts were implemented but not browser-visually verified. WebMCP uses feature detection and exposes navigation/search only; live WebMCP validation was unavailable for the same preview limitation. Normal UI use does not require it.
 
-ชื่อและโลโก้จริง: **Suntara Grand** / จำนวนห้องรวม: **168 ห้อง** / โซนห้องพัก: **ชั้น 3–6**
-ผังตัวอย่างแบ่งชั้น 3 = 44 ห้อง, ชั้น 4 = 44 ห้อง, ชั้น 5 = 42 ห้อง, ชั้น 6 = 38 ห้อง
-สัดส่วนนี้และเลขห้องยังเป็นข้อมูลสมมติ ต้องแทนด้วยรายชื่อจริงก่อนพัฒนาใช้งานจริง
-
-1. เปิด **หน้าจองลูกค้า** เลือกวันที่และจำนวนผู้เข้าพัก
-2. ดูรายละเอียดห้อง เลือกห้อง และใช้ชื่อกับเบอร์โทรศัพท์สมมติที่กรอกไว้เพื่อส่งคำขอ
-3. กด **ดูรายการนี้ฝั่ง Front** แล้วตรวจเลขห้องและชั้น
-4. ลอง **เปลี่ยนห้องพัก** ระบบแสดงเฉพาะห้องประเภทเดิมที่ว่างครบทุกคืน โดยคงวันที่และราคา
-5. กรอกเลข Easyfo สมมติ เช่น `EF-DEMO-001` บันทึกว่าลงรายการแล้ว และกดยืนยัน
-6. ไป **ห้องเปิดขาย** เลือกช่วงวันที่ ชั้น ประเภท หรือค้นหาเลขห้อง แล้วติ๊กหลายห้องเพื่อเปิด–ปิดขายพร้อมกัน
-7. เมื่อปิดขาย ให้ระบุเหตุผลและตรวจสรุปเลขห้องกับวันที่ก่อนยืนยัน ห้องที่มีรายการจองจะถูกป้องกันไว้
-8. ดู **ประวัติการเปลี่ยนแปลง** ซึ่งบันทึกชื่อบทบาท เวลา รายละเอียด และเหตุผล
-9. เปลี่ยน **บทบาททดลอง** ด้านบนเป็น **ผู้ดูแล Demo** เพื่อแก้ราคา รูปภาพ และรายละเอียดห้อง
-10. เปิด **ตั้งค่าห้องและผัง** เพื่อแก้เลขห้อง ชั้น หรือประเภท ห้องที่มีรายการจองต้องย้ายหรือยกเลิกรายการก่อนแก้ข้อมูลหลัก
-11. ในแท็บ **จัดลำดับผัง** ลากการ์ดหรือใช้ปุ่มลูกศร แล้วกดบันทึก การจัดลำดับเปลี่ยนเฉพาะตำแหน่งแสดงผล
-12. กด **เริ่มตัวอย่างใหม่** เพื่อคืนข้อมูลต้นแบบ หรือรีเฟรชหน้าเว็บ
-
-## ทดลองนำเข้าข้อมูลห้องจาก Excel
-
-- ในหน้า **ตั้งค่าห้องและผัง** กดดาวน์โหลด CSV ตัวอย่าง 168 ห้อง
-- เปิดด้วย Excel และบันทึกเป็น **CSV UTF-8** โดยคงหัวคอลัมน์ `room_number,floor,room_type`
-- ใช้ประเภท `Deluxe`, `Grand Deluxe`, `Superior`, `Suite` และชั้น `3`, `4`, `5`, `6`
-- อัปโหลด CSV หรือคัดลอกตารางจาก Excel มาวาง แล้วกดตรวจสอบและยืนยันนำเข้า
-- ระบบต้องได้ 168 ห้องไม่ซ้ำกัน ห้องที่มีรายการจองค้างอยู่ต้องคงเลขห้อง ชั้น และประเภทเดิม
-- รายการจองและสถานะขายของเลขห้องที่ตรงกันจะคงอยู่ ห้องใหม่จะเริ่มปิดขาย
-- ไฟล์ CSV อยู่เฉพาะในหน้าเว็บ ไม่มีการส่งเข้าเซิร์ฟเวอร์หรือ Easyfo
-
-## ขอบเขตของตัวอย่าง
-
-- ชื่อและโลโก้ Suntara Grand เป็นข้อมูลที่ผู้ใช้ให้ ส่วนหมายเลขห้อง จำนวนแยกชั้นและประเภท รูปห้อง ราคา รายละเอียด และลูกค้าเป็นข้อมูลสมมติ
-- ไม่มีระบบรับจองจริง ฐานข้อมูล ระบบเข้าสู่ระบบ หรือการแจ้งเตือนจริง
-- ไม่มีการเชื่อมต่อ Easyfo การกรอกเลขอ้างอิงเป็นเพียงการจำลองว่าพนักงานลงรายการด้วยตนเองแล้ว
-- ข้อมูลทดลองอยู่เฉพาะในหน้าเว็บที่เปิด รีเฟรชหรือปิดหน้าจะกลับเป็นค่าเริ่มต้น
-- ผู้ทดลองแต่ละคนมีข้อมูลของตนเอง ไม่เห็นรายการจองของกันและกัน
-- ทั้งหน้าลูกค้าและหน้า Front เปิดให้ทดลองได้ จึงไม่ต้องใช้บัญชีหรือรหัสผ่าน การสลับบทบาทเป็นเพียงการสาธิต ไม่มีการยืนยันตัวตนจริง
-- GitHub Pages แบบนี้เป็นเว็บไซต์สาธารณะ และ Repository แบบ Public เปิดดูไฟล์ต้นฉบับได้
-- เมื่อพัฒนาใช้งานจริง ต้องมี backend, database, staff authentication และการป้องกันการจองห้องซ้ำจากหลายผู้ใช้
-
-## เมื่อต้องแก้หน้าตาในครั้งถัดไป
-
-อัปโหลดไฟล์ที่แก้ลง Repository และ branch เดิม แล้ว Commit changes ระบบ Pages จะเผยแพร่การเปลี่ยนแปลงใหม่
-การแก้ไฟล์ใน GitHub ชุดนี้จะไม่เปลี่ยนต้นแบบที่เผยแพร่ผ่านลิงก์เดิมโดยอัตโนมัติ
-
-## ตรวจเมื่อเปิดไม่ขึ้น
-
-- ตรวจว่า `index.html` อยู่ที่ระดับแรก และตั้ง Pages เป็น `main / (root)`
-- ตรวจว่า `assets` ถูกอัปโหลดครบ รวมทั้ง `app.js`, `model.js` และ `style.css`
-- ดูสถานะการเผยแพร่ในแท็บ Actions หากล้มเหลว ให้อ่านข้อความผิดพลาดของ workflow
-- เปิดลิงก์จาก Visit site ใน Settings → Pages
-
-## เอกสารอ้างอิง
-
-ตรวจสอบขั้นตอนวันที่ 24 กันยายน 2026 จาก GitHub Docs:
-- https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
-- https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
-
-โลโก้ Suntara Grand มาจากไฟล์ที่ผู้ใช้ส่ง และคงต้นฉบับไว้
-ฟอนต์ Sarabun ใช้ SIL Open Font License ดูไฟล์ `assets/OFL.txt` ภาพห้องพักเป็นภาพประกอบที่สร้างขึ้นสำหรับต้นแบบ
-
-## การตรวจสอบ Demo รุ่นนี้
-
-ตรวจ syntax ของ JavaScript และตรรกะหลักผ่าน 11 กรณี รวมทั้งการกันห้อง การปิดหลายห้อง การย้ายห้อง การนำเข้า และการจัดลำดับ รวมถึงตรวจการสร้างหน้าจอและหน้าต่างหลักด้วย DOM จำลอง ยังไม่ได้ตรวจหน้าตาและการลากด้วยเบราว์เซอร์จริงในสภาพแวดล้อมนี้
+The guest-room picture is an original AI-generated illustrative asset. Sarabun regular/bold are bundled locally. No third-party runtime calls are needed for the prototype.

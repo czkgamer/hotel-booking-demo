@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="th">
+<head>
+ <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="theme-color" content="#142f36">
+ <meta name="description" content="ตัวอย่างหน้าจอระบบจองห้องพักและหลังบ้าน Front สำหรับโรงแรม 168 ห้อง">
+ <title>Hotel Preview · ระบบจองห้องพัก</title>
+ <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23142f36'/%3E%3Cpath d='M12 29V11h4v7h8v-7h4v18h-4v-7h-8v7z' fill='%23e8d3a8'/%3E%3C/svg%3E">
+ <link rel="stylesheet" href="./style.css">
+ <script type="module" src="./app.js"></script>
+</head>
+<body>
+ <div class="demo-bar"><span><i></i> UI PROTOTYPE <span class="demo-detail">· ข้อมูลสมมติสำหรับนำเสนอ ไม่รับจองจริง</span></span><button id="reset" class="reset">เริ่มตัวอย่างใหม่ ↻</button></div>
+ <header class="app-header"><a href="#" id="brand" class="brand"><span class="brand-mark">H</span><span>โรงแรมของคุณ<small>HOTEL BOOKING PREVIEW</small></span></a><nav class="view-switch" aria-label="เลือกหน้าจอตัวอย่าง"><button data-view="guest" class="active">หน้าจองลูกค้า</button><button data-view="front">หลังบ้าน Front <span class="count" id="pending-count">2</span></button></nav><span class="header-caption">168 ห้อง · 4 ประเภท</span></header>
+ <main id="app"></main>
+ <dialog id="dialog"><div id="dialog-content"></div></dialog>
+ <div id="toast" role="status" aria-live="polite"></div>
+ <noscript>กรุณาเปิด JavaScript เพื่อทดลองระบบจองห้องพัก</noscript>
+</body></html>

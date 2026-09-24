@@ -1,3 +1,4 @@
+import {validateParty,allocateParty} from './party.js?v=20260924-guests1';
 export const DAY=86400000;
 export function addDays(date,n){return new Date(Date.parse(date+'T00:00:00Z')+n*DAY).toISOString().slice(0,10)}
 export function today(){return new Date().toISOString().slice(0,10)}
@@ -30,6 +31,22 @@ export function createBooking(state,input){
  const room=available(state,type.id,input.start,input.end)[0];if(!room)throw Error('ห้องประเภทนี้เต็มแล้ว กรุณาเลือกประเภทหรือวันอื่น');
  const booking={id:'DEMO-'+state.next++,name:input.name.trim().slice(0,80),phone:input.phone,type:type.id,room:room.id,start:input.start,end:input.end,guests,status:'pending',easyfo:'',payment:'unpaid',rate:rate(type),total:rate(type)*nights(input.start,input.end)};
  state.bookings.unshift(booking);audit(state,'ส่งคำขอจอง',booking.id+' · ห้อง '+booking.room,'ลูกค้าทดลอง');return booking;
+}
+export function createBookingGroup(state,input){
+ const party=validateParty(input),type=state.types.find(t=>t.id===input.type);
+ if(!type)throw Error('ไม่พบประเภทห้อง');
+ const allocation=allocateParty(type,party);
+ if(available(state,type.id,input.start,input.end).length<party.rooms)throw Error('ห้องว่างไม่ครบตามจำนวนที่เลือก กรุณาปรับจำนวนห้องหรือวันเข้าพัก');
+ // Commit all room requests together. A failed request leaves the demo state unchanged.
+ const staged={...state,bookings:[...state.bookings],audit:[...state.audit]};
+ const groupId='GROUP-'+state.next;
+ const bookings=allocation.map(part=>{
+   const booking=createBooking(staged,{...input,guests:part.guests});
+   Object.assign(booking,part,{rooms:1,groupId,groupRoomCount:party.rooms});
+   return booking;
+ });
+ state.bookings=staged.bookings;state.audit=staged.audit;state.next=staged.next;
+ return {groupId,party,bookings,total:bookings.reduce((sum,b)=>sum+b.total,0)};
 }
 export function setRoomOpen(state,id,start,end,open,reason=''){setRoomsOpen(state,[id],start,end,open,reason);return state.rooms.find(r=>r.id===id)}
 

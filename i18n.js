@@ -1,4 +1,4 @@
-import {EN} from './translations-en.js?v=20260925-bilingual1';
+import {EN} from './translations-en.js?v=20260925-final1';
 
 // Presentation-only localization for the static demo. Booking state, form values,
 // room IDs and CSV field names always keep their original values.

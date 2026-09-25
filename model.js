@@ -1,4 +1,4 @@
-import {validateParty,allocateParty} from './party.js?v=20260925-bilingual1';
+import {validateParty,allocateParty} from './party.js?v=20260925-final1';
 export const DAY=86400000;
 export function addDays(date,n){return new Date(Date.parse(date+'T00:00:00Z')+n*DAY).toISOString().slice(0,10)}
 export function today(){return new Date().toISOString().slice(0,10)}
@@ -20,7 +20,7 @@ export function makeState(){
  return {types,rooms,bookings,start,end,next:1003,role:'front',audit:[]};
 }
 
-export function isOpen(room,date){let value=room.online;for(const o of room.overrides)if(o.start<=date&&date<o.end)value=o.open;return value}
+export function isOpen(room,date){if(room.active===false)return false;let value=room.online;for(const o of room.overrides)if(o.start<=date&&date<o.end)value=o.open;return value}
 export function roomStatus(state,room,start,end){const b=state.bookings.find(b=>b.room===room.id&&b.status!=='cancelled'&&overlaps(start,end,b.start,b.end));if(b)return b.status;for(let d=start;d<end;d=addDays(d,1))if(!isOpen(room,d))return 'closed';return 'open'}
 export function available(state,type,start,end){validStay(start,end);return state.rooms.filter(r=>r.type===type&&roomStatus(state,r,start,end)==='open')}
 export function rate(type){return Math.round(type.price*(1-type.discount/100))}
@@ -60,7 +60,7 @@ export function requireAdmin(state){if(state.role!=='admin')throw Error('กร�
 export function setRoomsOpen(state,ids,start,end,open,reason=''){
  validStay(start,end);if(!Array.isArray(ids)||!ids.length)throw Error('กรุณาเลือกห้อง');
  if(!open&&!reason.trim())throw Error('กรุณาระบุเหตุผลที่ปิดขาย');
- const unique=[...new Set(ids)];const targets=unique.map(id=>{const r=state.rooms.find(r=>r.id===id);if(!r)throw Error('ไม่พบห้อง '+id);if(state.bookings.some(b=>b.room===id&&b.status!=='cancelled'&&overlaps(start,end,b.start,b.end)))throw Error('ห้อง '+id+' มีรายการจอง จึงยังไม่ได้เปลี่ยนสถานะห้องที่เลือกทั้งหมด');return r});
+ const unique=[...new Set(ids)];const targets=unique.map(id=>{const r=state.rooms.find(r=>r.id===id);if(!r)throw Error('ไม่พบห้อง '+id);if(r.active===false)throw Error('ห้องนี้ยกเลิกใช้งานแล้ว');if(state.bookings.some(b=>b.room===id&&b.status!=='cancelled'&&overlaps(start,end,b.start,b.end)))throw Error('ห้อง '+id+' มีรายการจอง จึงยังไม่ได้เปลี่ยนสถานะห้องที่เลือกทั้งหมด');return r});
  const note=(reason.trim()||(open?'ตรวจสอบห้องว่างใน Easyfo แล้ว':'ปิดขาย')).slice(0,200);
  for(const room of targets)room.overrides.push({start,end,open:!!open,reason:note});
  audit(state,open?'เปิดขายออนไลน์':'ปิดขายออนไลน์','ห้อง '+unique.join(', ')+' · '+start+' ถึง '+end+' (ไม่รวมคืนเช็กเอาต์) · '+note);return targets;
@@ -75,8 +75,8 @@ export function moveBooking(state,id,targetId,easyfoUpdated=false){
  const before=b.room;b.room=targetId;audit(state,'ย้ายห้อง',b.id+' · '+before+' → '+targetId+' · วันพักและราคาเดิม'+(b.easyfo?' · พนักงานระบุว่าปรับ Easyfo แล้ว':''));return b;
 }
 function validateRoom(state,row){const id=String(row.id??'').trim(),floor=Number(row.floor),type=String(row.type??'');if(!/^[A-Za-z0-9-]{1,12}$/.test(id))throw Error('เลขห้องต้องเป็นตัวอักษรอังกฤษ ตัวเลข หรือขีด ไม่เกิน 12 ตัว');if(!FLOORS.includes(floor))throw Error('ชั้นห้องพักต้องเป็น 3, 4, 5 หรือ 6');if(!state.types.some(t=>t.id===type))throw Error('ประเภทห้องไม่ถูกต้อง');return {id,floor,type}}
-function countTypes(state){for(const t of state.types)t.count=state.rooms.filter(r=>r.type===t.id).length}
-export function updateRoom(state,id,values){requireAdmin(state);const room=state.rooms.find(r=>r.id===id);if(!room)throw Error('ไม่พบห้อง');const next=validateRoom(state,values);if(state.rooms.some(r=>r.id===next.id&&r!==room))throw Error('เลขห้องซ้ำกับห้องอื่น');const changed=room.id!==next.id||room.floor!==next.floor||room.type!==next.type;if(changed&&state.bookings.some(b=>b.room===id&&b.status!=='cancelled'))throw Error('ห้องมีรายการจองอยู่ กรุณาย้ายหรือยกเลิกรายการก่อนแก้ข้อมูลหลัก');if(changed){const previous=room.id+' / ชั้น '+room.floor+' / '+room.type;if(room.floor!==next.floor)room.order=Math.max(-1,...state.rooms.filter(r=>r.floor===next.floor).map(r=>r.order))+1;Object.assign(room,next);countTypes(state);audit(state,'แก้ข้อมูลห้อง',previous+' → '+room.id+' / ชั้น '+room.floor+' / '+room.type)}return room}
+function countTypes(state){for(const t of state.types)t.count=state.rooms.filter(r=>r.type===t.id&&r.active!==false).length}
+export function updateRoom(state,id,values){requireAdmin(state);const room=state.rooms.find(r=>r.id===id);if(!room)throw Error('ไม่พบห้อง');const next=validateRoom(state,values);if(state.rooms.some(r=>r.id===next.id&&r!==room))throw Error('เลขห้องซ้ำกับห้องอื่น');const changed=room.id!==next.id||room.floor!==next.floor||room.type!==next.type;if(changed&&state.bookings.some(b=>b.room===id))throw Error('ห้องมีประวัติรายการจอง จึงแก้เลขห้อง ชั้น หรือประเภทไม่ได้');if(changed){const previous=room.id+' / ชั้น '+room.floor+' / '+room.type;if(room.floor!==next.floor)room.order=Math.max(-1,...state.rooms.filter(r=>r.floor===next.floor).map(r=>r.order))+1;Object.assign(room,next);countTypes(state);audit(state,'แก้ข้อมูลห้อง',previous+' → '+room.id+' / ชั้น '+room.floor+' / '+room.type)}return room}
 export function saveRoomOrder(state,floor,ids){requireAdmin(state);const rooms=state.rooms.filter(r=>r.floor===floor);if(ids.length!==rooms.length||new Set(ids).size!==ids.length||ids.some(id=>!rooms.some(r=>r.id===id)))throw Error('ลำดับห้องไม่ครบหรือมีห้องต่างชั้น');ids.forEach((id,i)=>{rooms.find(r=>r.id===id).order=i});audit(state,'จัดลำดับผังห้อง','ชั้น '+floor+' · '+ids.join(', ')+' · เปลี่ยนเฉพาะตำแหน่งแสดงผล')}
 export function parseRoomCSV(text){
  if(typeof text!=='string'||!text.trim())throw Error('กรุณาเลือกไฟล์หรือวางข้อมูล');if(text.length>500000)throw Error('ข้อมูลมีขนาดใหญ่เกินไป');
@@ -88,5 +88,36 @@ export function parseRoomCSV(text){
  const types={'deluxe':'deluxe','grand deluxe':'grand','grand':'grand','superior':'superior','suite':'suite'};
  return rows.map((r,i)=>{if(r.length!==head.length)throw Error('จำนวนคอลัมน์ไม่ครบที่แถว '+(i+2));return {id:r[ni],floor:Number(r[fi]),type:types[r[ti]?.toLowerCase()]||r[ti]}});
 }
-export function validateRoomImport(state,rows){requireAdmin(state);if(!Array.isArray(rows)||rows.length!==168)throw Error('ชุดข้อมูลต้องมี 168 ห้อง ตามจำนวนโรงแรม');const clean=rows.map(r=>validateRoom(state,r));if(new Set(clean.map(r=>r.id)).size!==clean.length)throw Error('มีเลขห้องซ้ำในไฟล์');for(const b of state.bookings.filter(b=>b.status!=='cancelled')){const old=state.rooms.find(r=>r.id===b.room),next=clean.find(r=>r.id===b.room);if(!next||next.type!==b.type||next.floor!==old.floor)throw Error('ห้อง '+b.room+' มีรายการจองอยู่ ต้องคงเลขห้อง ชั้น และประเภทเดิมในไฟล์')}return clean}
-export function importRooms(state,rows){const clean=validateRoomImport(state,rows);const orders={};const rooms=clean.map(r=>{const old=state.rooms.find(x=>x.id===r.id);return {...r,order:orders[r.floor]=(orders[r.floor]??-1)+1,online:old?.online??false,overrides:old?.overrides.map(x=>({...x}))??[]}});state.rooms=rooms;countTypes(state);audit(state,'นำเข้ารายชื่อห้อง','168 ห้อง · คงรายการจองและสถานะขายเดิมของเลขห้องที่ตรงกัน · ห้องใหม่เริ่มปิดขาย');return rooms}
+export function validateRoomImport(state,rows){requireAdmin(state);if(!Array.isArray(rows)||rows.length!==168)throw Error('ชุดข้อมูลต้องมี 168 ห้อง ตามจำนวนโรงแรม');const clean=rows.map(r=>validateRoom(state,r));if(new Set(clean.map(r=>r.id)).size!==clean.length)throw Error('มีเลขห้องซ้ำในไฟล์');for(const b of state.bookings){const old=state.rooms.find(r=>r.id===b.room),next=clean.find(r=>r.id===b.room);if(!next||next.type!==b.type||next.floor!==old.floor)throw Error('ห้อง '+b.room+' มีรายการจองอยู่ ต้องคงเลขห้อง ชั้น และประเภทเดิมในไฟล์')}return clean}
+export function importRooms(state,rows){const clean=validateRoomImport(state,rows);const orders={};const rooms=clean.map(r=>{const old=state.rooms.find(x=>x.id===r.id);return {...r,order:orders[r.floor]=(orders[r.floor]??-1)+1,active:old?.active!==false,online:old?.online??false,overrides:old?.overrides.map(x=>({...x}))??[]}});state.rooms=rooms;countTypes(state);audit(state,'นำเข้ารายชื่อห้อง','168 ห้อง · คงรายการจองและสถานะขายเดิมของเลขห้องที่ตรงกัน · ห้องใหม่เริ่มปิดขาย');return rooms}
+
+// Front presentation may show mixed nights; booking availability remains conservative.
+export function roomDisplayStatus(state,room,start,end){
+ if(room.active===false)return 'inactive';
+ const daily=[];for(let d=start;d<end;d=addDays(d,1))daily.push({date:d,status:roomStatus(state,room,d,addDays(d,1))});
+ const statuses=new Set(daily.map(d=>d.status));return statuses.size>1?'mixed':daily[0]?.status||'closed';
+}
+export function addRoom(state,values){
+ requireAdmin(state);const next=validateRoom(state,values);
+ if(state.rooms.some(r=>r.id===next.id))throw Error('เลขห้องซ้ำกับห้องอื่น');
+ if(state.rooms.filter(r=>r.active!==false).length>=168)throw Error('ใช้งานครบ 168 ห้องแล้ว กรุณายกเลิกใช้งานหรือลบห้องที่เพิ่มผิดก่อน');
+ const r={...next,active:true,online:false,overrides:[],order:Math.max(-1,...state.rooms.filter(r=>r.floor===next.floor).map(r=>r.order))+1};
+ state.rooms.push(r);countTypes(state);audit(state,'เพิ่มห้องพัก',r.id+' · ชั้น '+r.floor+' · '+r.type+' · เริ่มปิดขาย');return r;
+}
+export function setRoomActive(state,id,active,reason){
+ requireAdmin(state);const r=state.rooms.find(r=>r.id===id);if(!r)throw Error('ไม่พบห้อง');
+ if(!String(reason||'').trim())throw Error('กรุณาระบุเหตุผล');
+ if(!active&&state.bookings.some(b=>b.room===id&&b.status!=='cancelled'&&b.end>today()))throw Error('ห้องมีรายการจองอยู่ ต้องจัดการรายการจองก่อนยกเลิกใช้งาน');
+ if(active&&r.active===false&&state.rooms.filter(r=>r.active!==false).length>=168)throw Error('ใช้งานครบ 168 ห้องแล้ว กรุณายกเลิกใช้งานหรือลบห้องที่เพิ่มผิดก่อน');
+ r.active=!!active;
+ // Reactivation must never silently reopen rooms that used to be on sale.
+ if(active)r.overrides.push({start:today(),end:'9999-12-31',open:false,reason:'กลับมาใช้งาน ต้องตรวจ Easyfo ก่อนเปิดขาย'});
+ countTypes(state);audit(state,active?'กลับมาใช้งานห้อง':'ยกเลิกใช้งานห้อง',id+' · '+String(reason).trim().slice(0,200));return r;
+}
+export function deleteRoom(state,id,reason){
+ requireAdmin(state);const r=state.rooms.find(r=>r.id===id);if(!r)throw Error('ไม่พบห้อง');
+ if(state.bookings.some(b=>b.room===id))throw Error('ลบไม่ได้ ห้องมีประวัติรายการจอง');
+ if(!String(reason||'').trim())throw Error('กรุณาระบุเหตุผล');
+ state.rooms=state.rooms.filter(item=>item!==r);
+ countTypes(state);audit(state,'ลบห้องที่เพิ่มผิด',id+' · '+String(reason).trim().slice(0,200));return r;
+}

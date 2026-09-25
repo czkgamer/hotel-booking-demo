@@ -3,18 +3,19 @@
 <head>
  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
  <meta name="theme-color" content="#142f36">
- <meta name="demo-release" content="20260924-guests1">
+ <meta name="demo-release" content="20260925-bilingual1">
  <meta name="description" content="ตัวอย่างหน้าจอระบบจองห้องพัก Suntara Grand และหลังบ้าน Front สำหรับโรงแรม 168 ห้อง">
  <title>Suntara Grand · ระบบจองห้องพัก</title>
  <link rel="icon" type="image/png" href="./assets/suntara-logo.png">
- <link rel="stylesheet" href="./style.css?v=20260924-guests1">
- <link rel="stylesheet" href="./features.css?v=20260924-guests1">
- <script type="module" src="./app.js?v=20260924-guests1"></script>
- <link rel="stylesheet" href="./guests.css?v=20260924-guests1">
+ <link rel="stylesheet" href="./style.css?v=20260925-bilingual1">
+ <link rel="stylesheet" href="./features.css?v=20260925-bilingual1">
+ <script type="module" src="./app.js?v=20260925-bilingual1"></script>
+ <link rel="stylesheet" href="./guests.css?v=20260925-bilingual1">
+ <link rel="stylesheet" href="./languages.css?v=20260925-bilingual1">
 </head>
 <body>
  <div class="demo-bar"><span><i></i> UI PROTOTYPE <span class="demo-detail">· ข้อมูลสมมติสำหรับนำเสนอ ไม่รับจองจริง</span></span><button id="reset" class="reset">เริ่มตัวอย่างใหม่ ↻</button></div>
- <header class="app-header"><a href="#" id="brand" class="brand"><img class="brand-logo" src="./assets/suntara-logo.png" width="85" height="83" style="object-fit:contain;flex-shrink:0" alt="โลโก้ Suntara Grand"><span>Suntara Grand<small>HOTEL BOOKING PREVIEW</small></span></a><nav class="view-switch" aria-label="เลือกหน้าจอตัวอย่าง"><button data-view="guest" class="active">หน้าจองลูกค้า</button><button data-view="front">หลังบ้าน Front <span class="count" id="pending-count">2</span></button><button data-view="widget">เว็บหลัก (ตัวอย่าง)</button></nav><span class="header-caption">168 ห้อง · ชั้น 3–6</span></header>
+ <header class="app-header"><a href="#" id="brand" class="brand"><img class="brand-logo" src="./assets/suntara-logo.png" width="85" height="83" style="object-fit:contain;flex-shrink:0" alt="โลโก้ Suntara Grand"><span>Suntara Grand<small>HOTEL BOOKING PREVIEW</small></span></a><nav class="view-switch" aria-label="เลือกหน้าจอตัวอย่าง"><button data-view="guest" class="active">หน้าจองลูกค้า</button><button data-view="front">หลังบ้าน Front <span class="count" id="pending-count">2</span></button><button data-view="widget">เว็บหลัก (ตัวอย่าง)</button></nav><div class="header-actions"><span class="header-caption">168 ห้อง · ชั้น 3–6</span><div class="language-switch" role="group" aria-label="Language / ภาษา" translate="no"><button type="button" data-locale="th" lang="th" aria-label="ภาษาไทย" aria-pressed="true">TH</button><button type="button" data-locale="en" lang="en" aria-label="English" aria-pressed="false">EN</button></div></div></header>
  <main id="app"></main>
  <dialog id="dialog"><div id="dialog-content"></div></dialog>
  <div id="toast" role="status" aria-live="polite"></div>

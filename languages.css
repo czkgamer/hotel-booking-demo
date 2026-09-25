@@ -1,0 +1,17 @@
+.header-actions{display:flex;align-items:center;gap:18px;min-width:0}
+.language-switch{display:inline-flex;align-items:center;padding:4px;gap:3px;border:1px solid var(--line);border-radius:9px;background:#fff;flex-shrink:0}
+.language-switch button{min-width:42px;min-height:38px;padding:6px 9px;border-radius:6px;background:transparent;color:var(--ink);font-size:14px;font-weight:700;line-height:1.4}
+.language-switch button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.language-switch button:hover:not([aria-pressed="true"]){background:#edf2ee}
+.modal-tools{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.modal-tools .language-switch button{min-width:34px;min-height:32px;padding:4px 6px}
+.app-header{gap:18px;flex-wrap:wrap}
+.app-header .view-switch{min-width:0;flex-wrap:wrap}
+html[lang="en"] .hero-copy h1{font-size:clamp(32px,3.2vw,47px);letter-spacing:-1px}
+html[lang="en"] .side-button{white-space:normal;overflow-wrap:break-word}
+html[lang="en"] .stat-label{min-height:2.8em}
+html[lang="en"] .room-facts,html[lang="en"] .guest-policy{line-height:1.6}
+html[lang="en"] .feature-day small{font-size:11px}
+html[lang="en"] .guest-step-row strong{text-transform:capitalize}
+@media(max-width:1100px){.app-header{justify-content:space-between}.app-header .header-actions{margin-left:auto}.app-header .view-switch{order:3;width:100%;justify-content:center}.header-caption{display:none}}
+@media(max-width:640px){.app-header .brand{flex:1;min-width:0}.header-actions{gap:0}.app-header .view-switch{margin:0}.app-header .view-switch button{flex:1;padding:9px 8px;font-size:14px}.language-switch button{min-width:37px}.modal-header{flex-wrap:wrap;gap:12px}.modal-tools{margin-left:auto}.modal-header h2{font-size:22px}html[lang="en"] .hero-copy h1{font-size:34px}html[lang="en"] .sidebar .side-button{white-space:nowrap}}

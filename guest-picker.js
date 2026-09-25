@@ -1,4 +1,4 @@
-import {partyOf,validateParty,PARTY_LIMITS} from './party.js?v=20260924-guests1';
+import {partyOf,validateParty,PARTY_LIMITS} from './party.js?v=20260925-bilingual1';
 
 export function createGuestPicker({doc,icon}) {
   let draft=partyOf();

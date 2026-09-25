@@ -1,8 +1,8 @@
 # Suntara Grand — Hotel booking UI prototype
 
-## Demo — รุ่น 20260924-guests1
+## Demo — รุ่น 20260925-bilingual1
 
-หน้าตัวอย่าง 4 ฟีเจอร์ที่รวมในใบเสนอราคา Rev.03 ราคา 45,000 บาท:
+ตัวอย่างหน้าจอสำหรับนำเสนอระบบจองและหลังบ้าน Front พร้อมความสามารถหลักต่อไปนี้:
 
 - **เปรียบเทียบห้อง:** เลือก 2–4 ประเภท เทียบรูป ขนาด เตียง ผู้เข้าพัก สิ่งอำนวยความสะดวก ราคา และห้องว่างในช่วงเดียวกัน แล้วจองจากตารางได้
 - **ปฏิทินห้องว่าง:** ดูรายเดือนและแยกประเภท เลือกวันเข้า–ออก ระบบตรวจห้องเดียวที่ว่างครบทุกคืน จำนวนเปลี่ยนตามการเปิด–ปิดขายและการจองที่ทดลองใน Front
@@ -10,6 +10,19 @@
 - **สถิติการจอง:** หลังบ้าน “สถิติการจอง” มีข้อมูลสมมติ 7 วัน และเหตุการณ์จาก “การทดลองครั้งนี้” แยกกัน ต้องยอมรับสถิติก่อนจึงนับเหตุการณ์ ไม่มีการส่งข้อมูลไป Google
 
 หน้าสถิติเป็นตัวอย่างอธิบายการตั้งค่า GA4 ในข้อเสนอ ระบบจริงดูรายงานผ่าน Google Analytics ไม่ถือว่ารวมการพัฒนารายงานเชื่อม GA4 เพิ่มเติม
+
+### สลับภาษา TH / EN
+
+- มีปุ่ม **TH / EN** ด้านบนทุกหน้า และในหัวหน้าต่างจอง/จัดการรายการ
+- ครอบคลุมหน้าจอง รายละเอียดห้อง ตัวเลือกห้อง/ผู้ใหญ่/เด็ก ปฏิทิน เปรียบเทียบห้อง ข้อความแจ้งเตือน หลังบ้าน Front สถิติ และหน้าตัวอย่างเว็บหลัก
+- เปลี่ยนภาษาโดยไม่รีเฟรช จึงเก็บวันที่ จำนวนห้อง อายุเด็ก รายการจอง และข้อมูลที่กำลังกรอกไว้
+- จำเฉพาะภาษาที่เลือกในเบราว์เซอร์ ไม่บันทึกข้อมูลผู้จองลง localStorage ข้อมูลการจองใน Demo ยังคงหายเมื่อรีเฟรช
+- ใช้ `?lang=en` เปิดภาษาอังกฤษ หรือ `?lang=th` เปิดภาษาไทยได้ การเปลี่ยนภาษาจะอัปเดตลิงก์นี้ด้วย
+- ราคาเป็นเงินบาททั้งสองภาษา วันที่แสดงเป็น พ.ศ. ใน TH และ ค.ศ. ใน EN ส่วนหน้าต่างเลือกวันที่/ไฟล์ของเบราว์เซอร์อาจใช้ภาษาตามอุปกรณ์
+- หลังบ้าน → บทบาทผู้ดูแล → ราคาและข้อมูลห้อง → แก้ไข มีช่องคำโปรยและรายละเอียด **TH / EN แยกกัน** ทดลองแก้แล้วสลับภาษาในหน้าลูกค้าได้
+- ชื่อผู้จอง เลขอ้างอิง และค่าที่พิมพ์ในฟอร์มคงตามที่กรอก ไม่แปลข้อมูลบุคคลอัตโนมัติ
+- คำแปลห้องและนโยบายเป็นตัวอย่าง ต้องให้โรงแรมตรวจรับก่อนเปิดใช้งานจริง
+- TH/EN เป็นการเพิ่ม Demo ในรอบนี้ ต้องเพิ่มขอบเขตสองภาษาในข้อเสนอที่จะอนุมัติ โดยรอบนี้ยังไม่ได้แก้ไขใบเสนอราคา
 
 ### ตัวเลือกผู้เข้าพักแบบใหม่
 
@@ -19,7 +32,7 @@
 - เด็กนับรวมในความจุห้อง ราคายังไม่คิดค่าบริการเด็กหรือเตียงเสริม ไม่ได้หมายความว่าโรงแรมให้เด็กพักฟรี เกณฑ์อายุ ราคา และนโยบายจริงรอโรงแรมยืนยัน
 - เมื่อจองหลายห้อง ระบบตัวอย่างกันห้องครบทุกห้องพร้อมกัน แยกรายการแต่ละห้องและแสดงเลขกลุ่มให้ Front ตรวจสอบได้ การยืนยัน ย้าย หรือยกเลิกทำแยกแต่ละห้อง
 - หน้าเปรียบเทียบห้อง ปฏิทิน สรุปการจอง และรายละเอียด Front ใช้จำนวนห้อง/ผู้เข้าพักเดียวกัน
-- ความสามารถเลือกหลายห้องเป็นการปรับ Demo เพิ่มจากข้อเสนอ Rev.03 ที่เขียนไว้เดิมว่าจองครั้งละ 1 ห้อง ก่อนลงนามควรปรับข้อความขอบเขตให้ตรงกัน โดยยังไม่ได้แก้ใบเสนอราคาในรอบนี้
+- รายการใน Demo ใช้เพื่ออธิบายการทำงาน ขอบเขต ราคา และเงื่อนไขระบบจริงให้ยึดใบเสนอราคาที่ทั้งสองฝ่ายอนุมัติ
 
 ### วิธีสาธิตกับผู้บริหาร
 
@@ -37,7 +50,7 @@
 1. แตก ZIP ชุดนี้ลงโฟลเดอร์ใหม่
 2. เปิด Repository `hotel-booking-demo` → **Add file → Upload files**
 3. อัปโหลดไฟล์ด้านในทั้งหมดและโฟลเดอร์ `assets` ไว้ระดับเดียวกับ `index.html` โดยแทนที่ไฟล์เดิม อย่าอัปโหลด ZIP ทั้งก้อนหรือเพิ่มโฟลเดอร์ครอบอีกชั้น
-4. ชุดนี้ต้องมี `index.html`, `app.js`, `model.js`, `style.css`, `features.js`, `features.css`, **`party.js`, `guest-picker.js` และ `guests.css`** พร้อม `assets` และ `README.md`
+4. ชุดนี้ต้องมี `index.html`, `app.js`, `model.js`, `style.css`, `features.js`, `features.css`, **`party.js`, `guest-picker.js`, `guests.css`, `i18n.js`, `translations-en.js` และ `languages.css`** พร้อม `assets` และ `README.md`
 5. กด **Commit changes** แล้วรอ GitHub Pages เผยแพร่เสร็จ
 6. เปิดลิงก์เดิมแล้วกด **Ctrl + Shift + R** ถ้ายังเป็นหน้าเดิมให้ลองหน้าต่างไม่ระบุตัวตน
 
@@ -53,9 +66,9 @@ URL ของ CSS/JavaScript ใช้รหัสรุ่นใหม่เพ
 
 ### การตรวจสอบ
 
-ผ่านการตรวจไวยากรณ์ JavaScript การทดสอบตรรกะ 15 กรณี และการสร้าง HTML จำลองครบทุกหน้า รวมฟีเจอร์ใหม่ 4 รายการ ตรวจเส้นทางไฟล์สำหรับ GitHub Pages แล้ว ยังไม่ได้ตรวจภาพหน้าจอด้วยเบราว์เซอร์จริงในสภาพแวดล้อมนี้
+ผ่านการตรวจไวยากรณ์ JavaScript การทดสอบตรรกะและการสลับภาษา 23 กรณี และการสร้าง HTML จำลองครบทุกหน้า รวมฟีเจอร์ใหม่ 4 รายการ ตรวจเส้นทางไฟล์สำหรับ GitHub Pages แล้ว ยังไม่ได้ตรวจภาพหน้าจอด้วยเบราว์เซอร์จริงในสภาพแวดล้อมนี้
 
-Thai, responsive, static prototype for Suntara Grand with 168 sample rooms and four room types. It demonstrates a guest booking flow and a Front desk workspace. All sample room counts, room numbers, images, descriptions, prices, and guests are fictional.
+Thai/English, responsive, static prototype for Suntara Grand with 168 sample rooms and four room types. It demonstrates a guest booking flow and a Front desk workspace. All sample room counts, room numbers, images, descriptions, prices, and guests are fictional.
 
 ## Presentation path
 
@@ -85,3 +98,5 @@ The included CSV contains `room_number,floor,room_type`. Exactly 168 unique room
 Static asset references checked locally. No compatible managed browser preview was available for this static project, so responsive layouts were implemented but not browser-visually verified. WebMCP uses feature detection and exposes navigation/search only; live WebMCP validation was unavailable for the same preview limitation. Normal UI use does not require it.
 
 The guest-room picture is an original AI-generated illustrative asset. Sarabun regular/bold are bundled locally. No third-party runtime calls are needed for the prototype.
+
+The language preference is device-local. Booking data remains in memory. This demo does not use an external translation service. English UI copy is in `translations-en.js`; room headlines and descriptions have independent Thai and English fields.

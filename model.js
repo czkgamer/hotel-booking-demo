@@ -1,4 +1,4 @@
-import {validateParty,allocateParty} from './party.js?v=20260924-guests1';
+import {validateParty,allocateParty} from './party.js?v=20260925-bilingual1';
 export const DAY=86400000;
 export function addDays(date,n){return new Date(Date.parse(date+'T00:00:00Z')+n*DAY).toISOString().slice(0,10)}
 export function today(){return new Date().toISOString().slice(0,10)}
@@ -8,10 +8,10 @@ export function overlaps(a,b,c,d){return a<d&&c<b}
 export function makeState(){
  const start=addDays(today(),7),end=addDays(start,2);
  const types=[
-  {id:'deluxe',name:'Deluxe',label:'พักสบาย ในแบบที่คุณชอบ',count:72,price:1650,discount:10,capacity:2,area:32,bed:'เตียงคิงไซซ์',desc:'ห้องพักบรรยากาศอบอุ่น พร้อมมุมนั่งพักผ่อน เหมาะกับการพักผ่อนของสองคน',photo:'./assets/room.png'},
-  {id:'grand',name:'Grand Deluxe',label:'พื้นที่ความสุขที่กว้างขึ้น',count:48,price:2150,discount:0,capacity:3,area:40,bed:'เตียงคิงไซซ์ + โซฟา',desc:'เพิ่มพื้นที่สำหรับพักผ่อนและทำงาน พร้อมมุมนั่งเล่นส่วนตัว สำหรับวันพักที่ไม่เร่งรีบ',photo:'./assets/room.png'},
-  {id:'superior',name:'Superior',label:'เรียบง่าย ครบทุกการพักผ่อน',count:36,price:1250,discount:0,capacity:2,area:28,bed:'เตียงคู่',desc:'ห้องพักสะดวกสบาย พร้อมสิ่งอำนวยความสะดวกพื้นฐาน เหมาะกับทั้งการเดินทางและวันพักผ่อน',photo:'./assets/room.png'},
-  {id:'suite',name:'Suite',label:'ให้ทุกการเข้าพักพิเศษกว่าเดิม',count:12,price:3200,discount:0,capacity:4,area:58,bed:'เตียงคิงไซซ์ + เตียงเสริม',desc:'ห้องพักขนาดใหญ่พร้อมพื้นที่นั่งเล่น ให้คุณใช้เวลาพักผ่อนร่วมกันได้อย่างเป็นส่วนตัว',photo:'./assets/room.png'}
+  {id:'deluxe',name:'Deluxe',label:'พักสบาย ในแบบที่คุณชอบ',labelEn:"Comfort, your way",count:72,price:1650,discount:10,capacity:2,area:32,bed:'เตียงคิงไซซ์',desc:'ห้องพักบรรยากาศอบอุ่น พร้อมมุมนั่งพักผ่อน เหมาะกับการพักผ่อนของสองคน',descEn:"A welcoming room with a relaxing seating area, ideal for a stay for two.",photo:'./assets/room.png'},
+  {id:'grand',name:'Grand Deluxe',label:'พื้นที่ความสุขที่กว้างขึ้น',labelEn:"More space to unwind",count:48,price:2150,discount:0,capacity:3,area:40,bed:'เตียงคิงไซซ์ + โซฟา',desc:'เพิ่มพื้นที่สำหรับพักผ่อนและทำงาน พร้อมมุมนั่งเล่นส่วนตัว สำหรับวันพักที่ไม่เร่งรีบ',descEn:"Extra space to relax and work, with your own seating area for an unhurried stay.",photo:'./assets/room.png'},
+  {id:'superior',name:'Superior',label:'เรียบง่าย ครบทุกการพักผ่อน',labelEn:"Everything you need for a restful stay",count:36,price:1250,discount:0,capacity:2,area:28,bed:'เตียงคู่',desc:'ห้องพักสะดวกสบาย พร้อมสิ่งอำนวยความสะดวกพื้นฐาน เหมาะกับทั้งการเดินทางและวันพักผ่อน',descEn:"A comfortable room with essential amenities, suitable for business trips and leisure stays.",photo:'./assets/room.png'},
+  {id:'suite',name:'Suite',label:'ให้ทุกการเข้าพักพิเศษกว่าเดิม',labelEn:"Make every stay feel special",count:12,price:3200,discount:0,capacity:4,area:58,bed:'เตียงคิงไซซ์ + เตียงเสริม',desc:'ห้องพักขนาดใหญ่พร้อมพื้นที่นั่งเล่น ให้คุณใช้เวลาพักผ่อนร่วมกันได้อย่างเป็นส่วนตัว',descEn:"A spacious room with a living area for spending relaxed, private time together.",photo:'./assets/room.png'}
  ];
  const distribution=[{floor:3,counts:[20,12,10,2]},{floor:4,counts:[20,12,10,2]},{floor:5,counts:[18,12,10,2]},{floor:6,counts:[14,12,6,6]}];
  const rooms=[];

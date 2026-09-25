@@ -1,5 +1,5 @@
-import {partyOf,partySummary,canFit} from './party.js?v=20260924-guests1';
-import {today, addDays, nights, validStay, available, rate} from './model.js?v=20260924-guests1';
+import {partyOf,partySummary,canFit} from './party.js?v=20260925-bilingual1';
+import {today, addDays, nights, validStay, available, rate} from './model.js?v=20260925-bilingual1';
 
 export const EVENT_STAGES = [
   ['search_rooms', 'ค้นหาห้องพัก'], ['view_room', 'ดูรายละเอียดห้อง'],

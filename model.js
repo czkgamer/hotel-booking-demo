@@ -1,4 +1,4 @@
-import {validateParty,allocateParty} from './party.js?v=20260925-final1';
+import {validateParty,allocateParty} from './party.js?v=20260926-members1';
 export const DAY=86400000;
 export function addDays(date,n){return new Date(Date.parse(date+'T00:00:00Z')+n*DAY).toISOString().slice(0,10)}
 export function today(){return new Date().toISOString().slice(0,10)}
@@ -55,7 +55,7 @@ export function confirmBooking(state,id){const b=state.bookings.find(b=>b.id===i
 export function cancelBooking(state,id){const b=state.bookings.find(b=>b.id===id);if(!b||b.status==='cancelled')throw Error('รายการนี้ถูกยกเลิกแล้ว');b.status='cancelled';audit(state,'ยกเลิกการจอง',b.id+' · ห้อง '+b.room);return b}
 export const FLOORS=[3,4,5,6];
 export const CLOSE_REASONS=['ขายผ่านช่องทางอื่น','ปิดซ่อม','กันห้องไว้','ยังไม่เปิดขาย'];
-export function audit(state,action,detail,actor){state.audit.unshift({time:new Date().toISOString(),actor:actor||(state.role==='admin'?'ผู้ดูแล Demo':'Front Demo'),action,detail})}
+export function audit(state,action,detail,actor){state.audit.unshift({time:new Date().toISOString(),actor:actor||state.actor||(state.role==='admin'?'ผู้ดูแล Demo':'Front Demo'),action,detail})}
 export function requireAdmin(state){if(state.role!=='admin')throw Error('กรุณาสลับเป็นบทบาทผู้ดูแลเพื่อทดลองตั้งค่า')}
 export function setRoomsOpen(state,ids,start,end,open,reason=''){
  validStay(start,end);if(!Array.isArray(ids)||!ids.length)throw Error('กรุณาเลือกห้อง');
